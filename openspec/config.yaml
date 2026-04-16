@@ -1,0 +1,23 @@
+schema: spec-driven
+
+context: |
+  Product: enterprise AI transformation survey H5 for business owners.
+  Runtime: Next.js App Router full-stack project.
+  Planned stack direction: Next.js + TailwindCSS + Zod + PostgreSQL + Prisma.
+  Current repo state: early scaffold, still JavaScript-based, requirements not fully written yet.
+  Working style: spec-driven development via OpenSpec. Create or refine a change before coding when work affects behavior, architecture, data shape, or contracts.
+  Verification baseline: lint, build, and openspec validation must pass before work is considered complete.
+  Constraint: prefer simple, surgical changes and avoid speculative abstractions.
+
+rules:
+  proposal:
+    - State the user problem, scope, non-goals, and success criteria explicitly.
+    - Call out any data model, survey logic, or flow changes.
+    - Keep the proposal concrete enough that tasks can be executed without guessing.
+  design:
+    - Add a design artifact only when the change affects architecture, persistence, integration boundaries, or non-trivial state flow.
+    - Record key tradeoffs and rejected alternatives briefly.
+  tasks:
+    - Break work into small, verifiable steps.
+    - Each task should include or imply a verification outcome.
+    - Prefer tasks that can be completed in one focused implementation pass.
