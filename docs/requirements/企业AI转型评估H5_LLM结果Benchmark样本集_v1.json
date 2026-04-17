@@ -1,0 +1,443 @@
+[
+  {
+    "case_id": "case_001",
+    "category": "high_potential_high_feasibility",
+    "profile": "服务业，11-50人，专业服务，客户咨询重复工作高",
+    "answers": {
+      "q5_main_process": "客户咨询/客服",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q7_core_problem": "响应速度慢",
+      "q9_ai_usage": "正在少量尝试",
+      "q10_tooling_level": "有一些工具，但比较分散",
+      "q12_budget": "5000-10000元",
+      "q14_owner": "我自己就能推动",
+      "q15_attitude": "愿意尝试，但希望有人带着做"
+    },
+    "expected": {
+      "rating": ["良好", "优秀"],
+      "top_scene": "客服效率",
+      "must_include": ["重复性工作", "响应速度", "小范围试点"],
+      "must_not_include": ["具体 ROI 金额", "行业 benchmark 数据"]
+    }
+  },
+  {
+    "case_id": "case_002",
+    "category": "high_potential_high_feasibility",
+    "profile": "零售业，11-50人，门店或电商运营，内容和客服压力大",
+    "answers": {
+      "q5_main_process": "内容产出",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q7_core_problem": "人工成本高",
+      "q9_ai_usage": "已经在多个环节使用",
+      "q10_tooling_level": "已经有比较完整的软件系统",
+      "q12_budget": "10000元以上",
+      "q15_attitude": "愿意马上试，先小范围跑起来"
+    },
+    "expected": {
+      "rating": ["优秀"],
+      "top_scene": "内容效率",
+      "must_include": ["高频内容场景", "具备较好落地基础"],
+      "must_not_include": ["暂缓推进"]
+    }
+  },
+  {
+    "case_id": "case_003",
+    "category": "high_potential_high_feasibility",
+    "profile": "制造业，51-200人，生产加工，行政和流程协同负担重",
+    "answers": {
+      "q5_main_process": "行政 / 内部管理",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q7_core_problem": "流程不规范",
+      "q8_impact_level": "比较大，明显拖慢业务",
+      "q10_tooling_level": "有一些工具，但比较分散",
+      "q11_team_adoption": "还可以，需要有人带着落地",
+      "q15_attitude": "愿意尝试，但希望有人带着做"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "内部协同",
+      "must_include": ["流程标准化", "推进责任明确"],
+      "must_not_include": ["复杂技术架构"]
+    }
+  },
+  {
+    "case_id": "case_004",
+    "category": "high_potential_high_feasibility",
+    "profile": "服务业，1-10人，小团队咨询业务，获客和内容都重",
+    "answers": {
+      "q5_main_process": "获客 / 营销",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q7_core_problem": "人工成本高",
+      "q9_ai_usage": "正在少量尝试",
+      "q11_team_adoption": "接受度高，愿意尝试",
+      "q12_budget": "1000-5000元",
+      "q15_attitude": "愿意马上试，先小范围跑起来"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "增长效率",
+      "must_include": ["低成本试点", "增长相关场景"],
+      "must_not_include": ["全面系统改造"]
+    }
+  },
+  {
+    "case_id": "case_005",
+    "category": "high_pain_low_feasibility",
+    "profile": "传统服务业，11-50人，问题很多但基础弱",
+    "answers": {
+      "q5_main_process": "客户咨询/客服",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q7_core_problem": "响应速度慢",
+      "q8_impact_level": "很大，已经影响收入或利润",
+      "q9_ai_usage": "几乎没接触过",
+      "q10_tooling_level": "基本没有系统化工具",
+      "q11_team_adoption": "较低，推进阻力大",
+      "q14_owner": "目前还没有明确负责人",
+      "q15_attitude": "先看看别人怎么做"
+    },
+    "expected": {
+      "rating": ["一般"],
+      "top_scene": "客服效率",
+      "must_include": ["基础和负责人问题", "不建议一开始全面铺开"],
+      "must_not_include": ["立即全面推进"]
+    }
+  },
+  {
+    "case_id": "case_006",
+    "category": "high_pain_low_feasibility",
+    "profile": "制造业，51-200人，质量和流程问题明显",
+    "answers": {
+      "q5_main_process": "交付 / 项目执行",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q7_core_problem": "质量不稳定",
+      "q8_impact_level": "很大，已经影响收入或利润",
+      "q9_ai_usage": "听说过，但还没正式用",
+      "q10_tooling_level": "主要靠微信、表格、人工协作",
+      "q15_attitude": "暂时还比较谨慎"
+    },
+    "expected": {
+      "rating": ["一般"],
+      "top_scene": "交付效率",
+      "must_include": ["先补流程基础", "风险提醒"],
+      "must_not_include": ["夸大成熟度"]
+    }
+  },
+  {
+    "case_id": "case_007",
+    "category": "high_pain_low_feasibility",
+    "profile": "零售业，小团队，业务急但预算极低",
+    "answers": {
+      "q5_main_process": "客户咨询/客服",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q8_impact_level": "比较大，明显拖慢业务",
+      "q12_budget": "1000元以内",
+      "q14_owner": "需要管理层一起决策",
+      "q15_attitude": "愿意尝试，但希望有人带着做"
+    },
+    "expected": {
+      "rating": ["一般"],
+      "top_scene": "客服效率",
+      "must_include": ["轻量试点", "预算限制"],
+      "must_not_include": ["重投入建议"]
+    }
+  },
+  {
+    "case_id": "case_008",
+    "category": "high_pain_low_feasibility",
+    "profile": "项目制服务公司，11-50人，交付链路复杂",
+    "answers": {
+      "q5_main_process": "交付 / 项目执行",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q7_core_problem": "流程不规范",
+      "q10_tooling_level": "有一些工具，但比较分散",
+      "q11_team_adoption": "一般，容易观望",
+      "q14_owner": "需要业务负责人配合"
+    },
+    "expected": {
+      "rating": ["一般"],
+      "top_scene": "交付效率",
+      "must_include": ["交付流程梳理", "负责人协同"],
+      "must_not_include": ["模糊口号"]
+    }
+  },
+  {
+    "case_id": "case_009",
+    "category": "low_foundation_high_intent",
+    "profile": "服务业创业团队，AI基础弱但老板积极",
+    "answers": {
+      "q5_main_process": "内容产出",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q9_ai_usage": "几乎没接触过",
+      "q11_team_adoption": "接受度高，愿意尝试",
+      "q12_budget": "1000-5000元",
+      "q14_owner": "我自己就能推动",
+      "q15_attitude": "愿意马上试，先小范围跑起来"
+    },
+    "expected": {
+      "rating": ["一般", "良好"],
+      "top_scene": "内容效率",
+      "must_include": ["先做简单场景", "不要一次做太重"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_010",
+    "category": "low_foundation_high_intent",
+    "profile": "零售运营团队，基础弱但时间要求高",
+    "answers": {
+      "q5_main_process": "获客 / 营销",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q8_impact_level": "比较大，明显拖慢业务",
+      "q9_ai_usage": "听说过，但还没正式用",
+      "q13_timeline": "1个月内",
+      "q15_attitude": "愿意马上试，先小范围跑起来"
+    },
+    "expected": {
+      "rating": ["一般", "良好"],
+      "top_scene": "增长效率",
+      "must_include": ["快速见效场景", "低风险启动"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_011",
+    "category": "low_foundation_high_intent",
+    "profile": "行政协同重的小企业",
+    "answers": {
+      "q5_main_process": "行政 / 内部管理",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q7_core_problem": "流程不规范",
+      "q9_ai_usage": "几乎没接触过",
+      "q15_attitude": "愿意尝试，但希望有人带着做"
+    },
+    "expected": {
+      "rating": ["一般", "良好"],
+      "top_scene": "内部协同",
+      "must_include": ["流程标准化", "从单点开始"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_012",
+    "category": "low_foundation_high_intent",
+    "profile": "项目交付团队，基础弱但负责人明确",
+    "answers": {
+      "q5_main_process": "交付 / 项目执行",
+      "q9_ai_usage": "听说过，但还没正式用",
+      "q10_tooling_level": "主要靠微信、表格、人工协作",
+      "q14_owner": "我自己就能推动",
+      "q15_attitude": "愿意马上试，先小范围跑起来"
+    },
+    "expected": {
+      "rating": ["一般", "良好"],
+      "top_scene": "交付效率",
+      "must_include": ["流程清晰、重复性高的子环节试点"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_013",
+    "category": "mid_size_complex_process",
+    "profile": "制造业51-200人，中层协同复杂",
+    "answers": {
+      "q2_company_size": "51-200人",
+      "q5_main_process": "行政 / 内部管理",
+      "q7_core_problem": "流程不规范",
+      "q10_tooling_level": "有一些工具，但比较分散",
+      "q14_owner": "需要管理层一起决策"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "内部协同",
+      "must_include": ["流程复杂度", "组织协同阻力"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_014",
+    "category": "mid_size_complex_process",
+    "profile": "零售连锁，中型规模，客服和营销并重",
+    "answers": {
+      "q2_company_size": "51-200人",
+      "q5_main_process": "客户咨询/客服",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q9_ai_usage": "正在少量尝试",
+      "q12_budget": "5000-10000元"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "客服效率",
+      "must_include": ["前台高频场景切入"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_015",
+    "category": "mid_size_complex_process",
+    "profile": "服务公司，中型团队，交付和质量问题突出",
+    "answers": {
+      "q5_main_process": "交付 / 项目执行",
+      "q7_core_problem": "质量不稳定",
+      "q8_impact_level": "很大，已经影响收入或利润",
+      "q10_tooling_level": "有一些工具，但比较分散",
+      "q11_team_adoption": "还可以，需要有人带着落地"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "交付效率",
+      "must_include": ["质量稳定性", "交付流程"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_016",
+    "category": "mid_size_complex_process",
+    "profile": "制造业，中型团队，负责人不明确",
+    "answers": {
+      "q5_main_process": "交付 / 项目执行",
+      "q8_impact_level": "比较大，明显拖慢业务",
+      "q14_owner": "目前还没有明确负责人",
+      "q15_attitude": "愿意尝试，但希望有人带着做"
+    },
+    "expected": {
+      "rating": ["一般", "良好"],
+      "top_scene": "交付效率",
+      "must_include": ["最大阻力是负责人不明确"],
+      "must_not_include": ["快速落地"]
+    }
+  },
+  {
+    "case_id": "case_017",
+    "category": "service_customer_efficiency",
+    "profile": "咨询公司，客户咨询多",
+    "answers": {
+      "q5_main_process": "客户咨询/客服",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q7_core_problem": "响应速度慢",
+      "q8_impact_level": "很大，已经影响收入或利润"
+    },
+    "expected": {
+      "rating": ["良好", "优秀"],
+      "top_scene": "客服效率",
+      "must_include": ["客服场景", "标准回复"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_018",
+    "category": "service_customer_efficiency",
+    "profile": "培训公司，重复答疑多",
+    "answers": {
+      "q5_main_process": "客户咨询/客服",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q9_ai_usage": "正在少量尝试",
+      "q12_budget": "1000-5000元"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "客服效率",
+      "must_include": ["小范围试点"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_019",
+    "category": "service_customer_efficiency",
+    "profile": "设计服务公司，咨询和交付并存",
+    "answers": {
+      "q5_main_process": "客户咨询/客服",
+      "q7_core_problem": "质量不稳定",
+      "q10_tooling_level": "主要靠微信、表格、人工协作"
+    },
+    "expected": {
+      "rating": ["一般", "良好"],
+      "top_scene": "客服效率",
+      "must_include": ["工具基础薄弱", "不要过度承诺"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_020",
+    "category": "service_customer_efficiency",
+    "profile": "代运营公司，客户沟通高频",
+    "answers": {
+      "q5_main_process": "客户咨询/客服",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q11_team_adoption": "接受度高，愿意尝试",
+      "q15_attitude": "愿意马上试，先小范围跑起来"
+    },
+    "expected": {
+      "rating": ["优秀", "良好"],
+      "top_scene": "客服效率",
+      "must_include": ["适合快速启动"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_021",
+    "category": "internal_collab_process",
+    "profile": "零售企业，库存和内部协同混乱",
+    "answers": {
+      "q5_main_process": "行政 / 内部管理",
+      "q7_core_problem": "流程不规范",
+      "q8_impact_level": "比较大，明显拖慢业务",
+      "q10_tooling_level": "有一些工具，但比较分散"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "内部协同",
+      "must_include": ["流程标准化"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_022",
+    "category": "internal_collab_process",
+    "profile": "制造企业，行政审批和对接耗时",
+    "answers": {
+      "q5_main_process": "行政 / 内部管理",
+      "q6_repeated_work": "有一些，偶尔会拖慢进度",
+      "q14_owner": "需要管理层一起决策"
+    },
+    "expected": {
+      "rating": ["一般", "良好"],
+      "top_scene": "内部协同",
+      "must_include": ["管理层协同"],
+      "must_not_include": []
+    }
+  },
+  {
+    "case_id": "case_023",
+    "category": "internal_collab_process",
+    "profile": "制造企业，内容场景不是主问题",
+    "answers": {
+      "q5_main_process": "交付 / 项目执行",
+      "q7_core_problem": "流程不规范",
+      "q10_tooling_level": "基本没有系统化工具"
+    },
+    "expected": {
+      "rating": ["一般"],
+      "top_scene": "交付效率",
+      "must_include": ["先补基础"],
+      "must_not_include": ["从内容生产切入"]
+    }
+  },
+  {
+    "case_id": "case_024",
+    "category": "internal_collab_process",
+    "profile": "零售企业，小团队，老板推动意愿强",
+    "answers": {
+      "q5_main_process": "行政 / 内部管理",
+      "q6_repeated_work": "非常多，已经明显影响效率",
+      "q12_budget": "1000-5000元",
+      "q14_owner": "我自己就能推动",
+      "q15_attitude": "愿意马上试，先小范围跑起来"
+    },
+    "expected": {
+      "rating": ["良好"],
+      "top_scene": "内部协同",
+      "must_include": ["从内部高频重复流程切入"],
+      "must_not_include": []
+    }
+  }
+]

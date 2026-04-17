@@ -15,7 +15,7 @@ mark：需求澄清、UI 风格确定
 
 ## 流程
 
-根据需求文档先做整体规划，再拆分边界清晰、依赖明确的子需求。只有当子需求之间的文件边界、接口边界和交付顺序足够清楚时，才使用并行开发；并行场景优先采用 Agent Teams + git worktree，避免相互污染和高冲突合并。若边界不清晰，优先串行推进，先收敛方案，再拆并行。
+根据 @docs/requirements/ （除了 raw/ 目录以外）中的产品需求文档先做整体规划，再拆分边界清晰、依赖明确的子需求。只有当子需求之间的文件边界、接口边界和交付顺序足够清楚时，才使用并行开发；并行场景优先采用 Agent Teams + git worktree，避免相互污染和高冲突合并。若边界不清晰，优先串行推进，先收敛方案，再拆并行。
 
 凡是会改变用户行为、调研流程、评分/分析逻辑、数据模型、接口结构、外部集成或非简单 UI 行为的任务，编码前必须先走 OpenSpec：先用 `/opsx:propose` 明确目标、范围、非目标、验收标准和验证方式，再用 `/opsx:apply` 按当前 change 实现；验证通过、产物一致后，最后再执行 `/opsx:archive`。纯文案调整、孤立小 bug 修复且不改变预期行为时，可以不新建 change，但仍要说明验证方式。
 
@@ -24,6 +24,49 @@ mark：需求澄清、UI 风格确定
 每个子模块完成后，先调用 `/code-review-expert` 做 review，并优先清零 blocker 级问题；非阻塞建议要么当轮处理，要么明确记录暂不处理的原因，避免把风格分歧无限升级为阻塞项。完成 review 后执行验证：默认基线为 `pnpm check`；若该任务影响真实用户流程或关键页面，再补跑对应 e2e、手工 smoke test 或任务说明中要求的专项检查。
 
 所有并行子任务完成后再合并主分支。合并后必须站在集成结果而不是子分支局部视角，重新做一轮整体 review，并再次执行完整验证；只有当基线检查通过、相关专项验证通过、OpenSpec 产物与实现一致时，任务才算完成。
+
+## 模型
+
+BASE_URL：https://api.xiaomimimo.com/v1
+API_KEY：sk-cc98hxka3f53x1ejfwl0ly4k5m8koyo7aqav7vlbj9wzho82
+
+快速接入示例：
+```Python
+import os
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=os.environ.get("MIMO_API_KEY"),
+    base_url="https://api.xiaomimimo.com/v1"
+)
+
+completion = client.chat.completions.create(
+    model="mimo-v2-pro",
+    messages=[
+        {
+            "role": "system",
+            "content": "You are MiMo, an AI assistant developed by Xiaomi. Today is date: Tuesday, December 16, 2025. Your knowledge cutoff date is December 2024."
+        },
+        {
+            "role": "user",
+            "content": "please introduce yourself"
+        }
+    ],
+    max_completion_tokens=1024,
+    temperature=1.0,
+    top_p=0.95,
+    stream=False,
+    stop=None,
+    frequency_penalty=0,
+    presence_penalty=0
+)
+
+print(completion.model_dump_json())
+```
+
+## 要求
+
+1. 产出的所有 markdown 内容都用中文！
 
 
 ## NextJS 官方规范
