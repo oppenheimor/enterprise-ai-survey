@@ -28,7 +28,7 @@ mark：需求澄清、UI 风格确定
 ## 模型
 
 BASE_URL：https://api.xiaomimimo.com/v1
-API_KEY：sk-cc98hxka3f53x1ejfwl0ly4k5m8koyo7aqav7vlbj9wzho82
+API_KEY：不要在仓库中记录真实密钥；本地和服务器统一通过 `MIMO_API_KEY` 环境变量注入。
 
 快速接入示例：
 ```Python
