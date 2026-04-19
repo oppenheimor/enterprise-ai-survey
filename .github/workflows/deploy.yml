@@ -1,0 +1,218 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-enterprise-ai-survey
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run project checks
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/enterprise_ai_survey
+          NEXT_PUBLIC_BASE_PATH: /enterprise-ai-survey
+        run: |
+          pnpm lint
+          pnpm typecheck
+          pnpm test:unit
+          pnpm build
+
+  deploy:
+    name: Deploy To Tencent Cloud
+    runs-on: ubuntu-latest
+    needs: check
+    timeout-minutes: 30
+    environment: production
+
+    env:
+      DEPLOY_HOST: ${{ secrets.TENCENT_DEPLOY_HOST }}
+      DEPLOY_PORT: ${{ secrets.TENCENT_DEPLOY_PORT }}
+      DEPLOY_USER: ${{ secrets.TENCENT_DEPLOY_USER }}
+      APP_DIR: /home/ubuntu/enterprise-ai-survey
+      APP_NAME: enterprise-ai-survey
+      APP_BASE_PATH: /enterprise-ai-survey
+      PUBLIC_BASE_URL: http://43.137.38.67/enterprise-ai-survey
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Prepare SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "::group::Validate required secrets"
+          missing=0
+          for name in DEPLOY_HOST DEPLOY_PORT DEPLOY_USER; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing GitHub secret for ${name}"
+              missing=1
+            fi
+          done
+
+          if [ -z "${{ secrets.TENCENT_DEPLOY_SSH_KEY }}" ]; then
+            echo "::error::Missing GitHub secret TENCENT_DEPLOY_SSH_KEY"
+            missing=1
+          fi
+
+          if [ "${missing}" -ne 0 ]; then
+            exit 1
+          fi
+          echo "::endgroup::"
+
+          echo "::group::Install SSH key"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          install -m 600 /dev/null ~/.ssh/tencent_deploy_key
+          printf '%s\n' "${{ secrets.TENCENT_DEPLOY_SSH_KEY }}" > ~/.ssh/tencent_deploy_key
+          echo "::endgroup::"
+
+          echo "::group::Trust server host key"
+          ssh-keyscan -p "${DEPLOY_PORT}" -H "${DEPLOY_HOST}" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          echo "::endgroup::"
+
+      - name: Deploy on server
+        id: deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "::group::Remote deploy"
+          ssh -i ~/.ssh/tencent_deploy_key \
+            -p "${DEPLOY_PORT}" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "APP_DIR='${APP_DIR}' APP_NAME='${APP_NAME}' APP_BASE_PATH='${APP_BASE_PATH}' bash -se" <<'REMOTE'
+          set -euo pipefail
+
+          step() {
+            printf '\n==> %s\n' "$1"
+          }
+
+          step "进入应用目录"
+          cd "$APP_DIR"
+          pwd
+
+          step "确认服务器环境"
+          node -v
+          corepack --version
+          corepack enable
+          pnpm -v
+
+          step "检查服务器 .env"
+          test -f .env
+          test -s .env
+
+          step "检查 Git 工作树"
+          if [ -n "$(git status --short)" ]; then
+            git status --short
+            echo "服务器工作树存在未提交或未跟踪变更，停止自动部署。"
+            exit 1
+          fi
+
+          step "拉取 main 分支"
+          git remote -v
+          git fetch origin main
+          git pull --ff-only origin main
+          git rev-parse --short HEAD
+
+          step "安装依赖"
+          pnpm install --frozen-lockfile
+
+          step "执行数据库迁移"
+          pnpm prisma:deploy
+
+          step "构建 Next.js"
+          NEXT_PUBLIC_BASE_PATH="$APP_BASE_PATH" pnpm build
+
+          step "重启 PM2"
+          pm2 restart "$APP_NAME" --update-env
+          pm2 save
+
+          step "运行时状态"
+          pm2 describe "$APP_NAME"
+          systemctl is-active pm2-ubuntu
+          sudo nginx -t
+
+          step "本机入口验收"
+          curl -fsSIL "http://127.0.0.1:3000${APP_BASE_PATH}" >/dev/null
+          curl -fsSIL "http://127.0.0.1:3000${APP_BASE_PATH}/dashboard" >/dev/null
+
+          step "记录服务器提交"
+          git rev-parse --short HEAD > /tmp/enterprise-ai-survey-deployed-sha
+          REMOTE
+          echo "::endgroup::"
+
+      - name: Validate public entry
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "::group::Public validation"
+          curl -fsSIL "${PUBLIC_BASE_URL}" >/dev/null
+          curl -fsSIL "${PUBLIC_BASE_URL}/dashboard" >/dev/null
+          status=$(curl -sS -o /dev/null -w "%{http_code}" "${PUBLIC_BASE_URL}/api/survey/analysis")
+          if [ "${status}" != "405" ] && [ "${status}" != "400" ] && [ "${status}" != "200" ]; then
+            echo "::error::Unexpected API probe status: ${status}"
+            exit 1
+          fi
+          echo "API probe status: ${status}"
+          echo "::endgroup::"
+
+      - name: Read deployed commit
+        id: server
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha=$(ssh -i ~/.ssh/tencent_deploy_key \
+            -p "${DEPLOY_PORT}" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "cd '${APP_DIR}' && git rev-parse --short HEAD")
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+
+      - name: Deployment summary
+        shell: bash
+        run: |
+          {
+            echo "## 生产部署完成"
+            echo ""
+            echo "- GitHub commit: \`${GITHUB_SHA::7}\`"
+            echo "- Server commit: \`${{ steps.server.outputs.sha }}\`"
+            echo "- App: \`${APP_NAME}\`"
+            echo "- Public home: ${PUBLIC_BASE_URL}"
+            echo "- Public dashboard: ${PUBLIC_BASE_URL}/dashboard"
+          } >> "$GITHUB_STEP_SUMMARY"

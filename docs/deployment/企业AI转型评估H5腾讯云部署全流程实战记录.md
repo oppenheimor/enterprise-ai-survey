@@ -410,6 +410,43 @@ pm2 save
 4. 如果服务器目录被手工改过，发布应该失败并提示处理，而不是悄悄覆盖。
 5. `git reset --hard origin/main` 只能在明确备份、确认服务器目录没有重要本地改动时使用。
 
+### 7.4 当前已升级为 GitHub Actions 自动部署
+
+本项目现在已经把第 7.3 节的常规发布命令封装进 GitHub Actions。
+
+当前日常发布流程变为：
+
+```bash
+git status
+pnpm check
+git add 需要发布的文件
+git commit -m "描述本次发布"
+git push origin main
+```
+
+push 到 `main` 后，GitHub Actions 会自动：
+
+1. 在 GitHub runner 上执行 `pnpm check`。
+2. 通过专用 SSH key 登录 `ubuntu@43.137.38.67`。
+3. 在 `/home/ubuntu/enterprise-ai-survey` 执行 `git pull --ff-only origin main`。
+4. 执行 `pnpm install --frozen-lockfile`。
+5. 执行 `pnpm prisma:deploy`。
+6. 执行 `NEXT_PUBLIC_BASE_PATH="/enterprise-ai-survey" pnpm build`。
+7. 执行 `pm2 restart enterprise-ai-survey --update-env` 和 `pm2 save`。
+8. 验收 PM2、systemd、Nginx、本机端口和公网入口。
+
+查看部署进度：
+
+```text
+GitHub 仓库 -> Actions -> Deploy Production
+```
+
+详细说明见：
+
+```text
+docs/deployment/GitHub Actions 自动部署指南.md
+```
+
 ---
 
 ## 8. 配置线上环境变量

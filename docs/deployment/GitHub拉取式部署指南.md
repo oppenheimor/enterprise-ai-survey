@@ -442,31 +442,59 @@ pm2 restart enterprise-ai-survey --update-env
 
 ---
 
-## 10. 后续可升级方向
+## 10. GitHub Actions 自动发布
 
-当前方案是手动执行服务器拉取。
+当前项目已经在手动 GitHub 拉取式部署之上，新增了 GitHub Actions 自动部署：
+
+```text
+push main
+  -> GitHub Actions
+  -> SSH 登录服务器
+  -> 执行本文第 7.2 节同一套 pull/build/restart 命令
+  -> 分层验收并输出部署进度
+```
+
+对应 workflow：
+
+```bash
+.github/workflows/deploy.yml
+```
+
+自动部署没有改变本文的核心原则：
+
+1. GitHub 仍然是唯一代码源。
+2. 服务器仍然从 GitHub 拉取代码。
+3. 服务器 `.env` 仍然留在服务器，不进入 GitHub。
+4. 部署仍然使用 `git pull --ff-only`，不会强制覆盖服务器工作树。
+5. PM2、systemd、Nginx、本机端口和公网入口仍然要分层验收。
+
+更多细节见：
+
+```text
+docs/deployment/GitHub Actions 自动部署指南.md
+```
+
+---
+
+## 11. 后续可升级方向
+
+当前方案是 GitHub Actions 触发的单机 SSH 自动部署。
 
 后续可以继续升级为：
 
 ```text
-本地 push main
-  -> GitHub Actions 触发
-  -> SSH 登录服务器
-  -> 执行同一套 deploy 命令
-  -> 输出验收结果
+GitHub Actions
+  -> 构建 release 目录
+  -> 迁移前数据库备份
+  -> symlink 原子切换
+  -> 支持快速回滚到上一版 release
 ```
 
-但升级 GitHub Actions 前，建议先保证本文这套手动流程稳定运行几次。
-
-原因：
-
-1. 手动流程跑通后，自动化只是搬运命令。
-2. 手动流程没跑通时，上 CI/CD 只会把问题藏得更深。
-3. 当前最重要的是建立可追溯发布，而不是追求“看起来全自动”。
+但当前阶段不急着引入 release 目录或蓝绿部署。原因是只有一台服务器和一个应用实例，先把“可追溯、可自动触发、可分层验收”的闭环跑稳定更重要。
 
 ---
 
-## 11. 本项目当前迁移检查清单
+## 12. 本项目当前迁移检查清单
 
 在真正切换服务器前，需要确认：
 
@@ -485,7 +513,7 @@ pm2 restart enterprise-ai-survey --update-env
 
 ---
 
-## 12. 参考资料
+## 13. 参考资料
 
 本指南结合了以下资料：
 
