@@ -17,4 +17,4 @@
 
 - [x] 4.1 更新部署文档，记录自动部署流程、Secrets、服务器 `.env` 策略和排障方式
 - [x] 4.2 本地运行项目基线检查和 OpenSpec 校验
-- [ ] 4.3 提交并 push 到 `main`，确认 GitHub Actions 可见且生产入口通过验收
+- [x] 4.3 提交并 push 到 `main`，确认 GitHub Actions 可见且生产入口通过验收
