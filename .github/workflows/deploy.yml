@@ -167,6 +167,22 @@ jobs:
           systemctl is-active pm2-ubuntu
           sudo nginx -t
 
+          step "等待应用监听"
+          for attempt in $(seq 1 30); do
+            if curl -fsSI "http://127.0.0.1:3000${APP_BASE_PATH}" >/dev/null; then
+              echo "应用已就绪，尝试次数：${attempt}"
+              break
+            fi
+
+            if [ "${attempt}" -eq 30 ]; then
+              echo "应用在 60 秒内没有就绪。"
+              pm2 logs "$APP_NAME" --lines 80 --nostream
+              exit 1
+            fi
+
+            sleep 2
+          done
+
           step "本机入口验收"
           curl -fsSIL "http://127.0.0.1:3000${APP_BASE_PATH}" >/dev/null
           curl -fsSIL "http://127.0.0.1:3000${APP_BASE_PATH}/dashboard" >/dev/null

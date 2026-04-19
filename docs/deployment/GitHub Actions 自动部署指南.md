@@ -188,11 +188,14 @@ pm2 save
 pm2 describe enterprise-ai-survey
 systemctl is-active pm2-ubuntu
 sudo nginx -t
+等待 http://127.0.0.1:3000/enterprise-ai-survey 就绪
 curl -fsSIL http://127.0.0.1:3000/enterprise-ai-survey
 curl -fsSIL http://127.0.0.1:3000/enterprise-ai-survey/dashboard
 curl -fsSIL http://43.137.38.67/enterprise-ai-survey
 curl -fsSIL http://43.137.38.67/enterprise-ai-survey/dashboard
 ```
+
+等待就绪是必要的：`pm2 restart` 成功只代表进程已经被拉起，不代表 Next.js 已经完成启动并开始监听 `3000` 端口。workflow 会最多等待 60 秒，超时后打印 PM2 日志再失败。
 
 分析 API 会用普通 `GET` 探测：
 
