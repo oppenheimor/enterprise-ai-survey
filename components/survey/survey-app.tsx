@@ -273,11 +273,22 @@ export function SurveyApp({ source, campaign }: SurveyAppProps) {
         isLanding ? "grid max-w-xl place-items-center" : "max-w-6xl",
       )}
       style={{
-        background: 'radial-gradient(circle at 0 0, #f59e0b3d, #0000 24%), radial-gradient(circle at 100% 0, #0ea5e92e, #0000 26%), linear-gradient(#111827 0%, #0f172a 48%, #0b1120 100%)'
+        background:
+          "radial-gradient(circle at 0 0, #f59e0b3d, #0000 24%), radial-gradient(circle at 100% 0, #0ea5e92e, #0000 26%), linear-gradient(#111827 0%, #0f172a 48%, #0b1120 100%)",
       }}
     >
-      <div className={cn("grid w-full gap-4", !isLanding && "lg:grid-cols-[minmax(0,1fr)]")}>
-        <section className={cn("grid min-h-[calc(100vh-2rem)] place-items-center", !isLanding && "hidden")}>
+      <div
+        className={cn(
+          "grid w-full gap-4",
+          !isLanding && "lg:grid-cols-[minmax(0,1fr)]",
+        )}
+      >
+        <section
+          className={cn(
+            "grid min-h-[calc(100vh-2rem)] place-items-center",
+            !isLanding && "hidden",
+          )}
+        >
           <div className="grid w-full gap-8 text-center">
             <div className="mx-auto h-1.5 w-16 rounded-full bg-[var(--brand)] shadow-[0_0_36px_rgba(245,158,11,.55)]" />
             <div className="grid gap-5">
@@ -289,7 +300,7 @@ export function SurveyApp({ source, campaign }: SurveyAppProps) {
                 值不值得做。
               </h1>
               <p className="mx-auto max-w-sm text-sm leading-6 text-[var(--muted-ink)]">
-                16 道题，先判断你的企业 AI 转型该不该启动、从哪一刀切进去。
+                16 道题，先判断你的企业 AI 转型该不该启动、从哪一刀切进去
               </p>
             </div>
             <Button
@@ -327,15 +338,27 @@ export function SurveyApp({ source, campaign }: SurveyAppProps) {
                     </span>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full rounded-full bg-[var(--brand)] transition-all" style={{ width: `${progress}%` }} />
+                    <div
+                      className="h-full rounded-full bg-[var(--brand)] transition-all"
+                      style={{ width: `${progress}%` }}
+                    />
                   </div>
                   <div className="grid gap-3">
-                    <p className="text-xs uppercase tracking-[0.24em] text-[var(--brand)]">{currentQuestion.group}</p>
+                    <p className="text-xs uppercase tracking-[0.24em] text-[var(--brand)]">
+                      {currentQuestion.group}
+                    </p>
                     <div className="flex items-center gap-3">
                       <div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full border border-amber-300/20 bg-amber-300/10 text-[var(--brand)] shadow-[0_10px_28px_rgba(245,158,11,.14)]">
-                        <CurrentQuestionIcon aria-hidden="true" className="size-5" />
+                        <CurrentQuestionIcon
+                          aria-hidden="true"
+                          className="size-5"
+                        />
                       </div>
-                      <div aria-level={2} className="text-2xl leading-tight text-white" role="heading">
+                      <div
+                        aria-level={2}
+                        className="text-2xl leading-tight text-white"
+                        role="heading"
+                      >
                         {currentQuestion.title}
                       </div>
                     </div>
@@ -355,11 +378,17 @@ export function SurveyApp({ source, campaign }: SurveyAppProps) {
                         onClick={() => handleSelect(option.value)}
                         type="button"
                       >
-                        <span className="text-sm font-medium">{option.label}</span>
+                        <span className="text-sm font-medium">
+                          {option.label}
+                        </span>
                       </button>
                     );
                   })}
-                  <Button className="mt-3 h-12 rounded-full text-sm font-semibold" disabled={!currentAnswer || pending} onClick={handleNext}>
+                  <Button
+                    className="mt-3 h-12 rounded-full text-sm font-semibold"
+                    disabled={!currentAnswer || pending}
+                    onClick={handleNext}
+                  >
                     {pending ? (
                       <>
                         <LoaderCircle className="size-4 animate-spin" />
@@ -377,7 +406,11 @@ export function SurveyApp({ source, campaign }: SurveyAppProps) {
                       </>
                     )}
                   </Button>
-                  {submitMessage ? <p className="text-sm text-[var(--warning)]">{submitMessage}</p> : null}
+                  {submitMessage ? (
+                    <p className="text-sm text-[var(--warning)]">
+                      {submitMessage}
+                    </p>
+                  ) : null}
                 </CardContent>
               </Card>
             ) : null}
@@ -397,12 +430,12 @@ export function SurveyApp({ source, campaign }: SurveyAppProps) {
             {stage === "detailAnalysis" && detailPayload ? (
               <DetailAnalysisView
                 diagnosis={detailPayload.diagnosis}
-              error={analysisError}
-              hasFirstChunk={analysisHasFirstChunk}
-              onBack={() => {
-                analysisRequestRef.current?.abort();
-                setStage("resultPreview");
-                setAnalysisStreaming(false);
+                error={analysisError}
+                hasFirstChunk={analysisHasFirstChunk}
+                onBack={() => {
+                  analysisRequestRef.current?.abort();
+                  setStage("resultPreview");
+                  setAnalysisStreaming(false);
                 }}
                 onRestart={() => {
                   resetSurvey();
