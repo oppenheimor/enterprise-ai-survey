@@ -133,7 +133,7 @@ concurrency:
 `check` job 在 GitHub runner 上执行：
 
 ```bash
-pnpm install --frozen-lockfile
+DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/enterprise_ai_survey" pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
 pnpm test:unit
@@ -148,6 +148,8 @@ pnpm build
 4. build
 
 这一步失败时，不会进入服务器部署。
+
+其中 `DATABASE_URL` 是 runner 上用于 Prisma `postinstall` 和构建阶段的占位连接串，不是生产数据库连接串。生产数据库连接串仍然只读取服务器 `.env`。
 
 说明：
 
