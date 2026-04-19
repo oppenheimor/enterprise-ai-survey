@@ -1,18 +1,50 @@
 generator client {
   provider = "prisma-client-js"
+  engineType = "library"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model SurveyLead {
-  id          String   @id @default(cuid())
-  companyName String
-  contactName String
-  email       String
-  phone       String?
-  goals       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model SurveySubmission {
+  id                     String   @id @default(cuid())
+  source                 String   @default("direct")
+  campaign               String   @default("organic")
+  durationSeconds        Int      @default(0)
+  q1Industry             String
+  q2CompanySize          String
+  q3BusinessType         String
+  q4RevenueModel         String
+  q5MainProcess          String
+  q6RepeatedWork         String
+  q7CoreProblem          String
+  q8ImpactLevel          String
+  q9AiUsage              String
+  q10ToolingLevel        String
+  q11TeamAdoption        String
+  q12Budget              String
+  q13Timeline            String
+  q14Owner               String
+  q15Attitude            String
+  q16ExpectedResult      String
+  scoreTotal             Int
+  scoreRating            String
+  transformationPotential Int
+  painUrgency            Int
+  executionFeasibility   Int
+  topScene               String
+  leadPriority           String
+  diagnosis              Json
+  leadName               String
+  leadPhone              String
+  companyName            String
+  backupContact          String?
+  leadFocus              String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([createdAt(sort: Desc)])
+  @@index([leadPriority, scoreRating])
+  @@index([topScene])
 }

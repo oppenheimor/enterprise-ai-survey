@@ -42,3 +42,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+docs/*
+!docs/deployment/
+!docs/deployment/**
+
+# local debug artifacts
+tmp-*
+tmp-image-out/
+.tmp-image-venv/

@@ -1,20 +1,44 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const headingFont = Space_Grotesk({
+  variable: "--font-heading-display",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const monoFont = IBM_Plex_Mono({
+  variable: "--font-mono-display",
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
+});
+
+const localHeadingFont = localFont({
+  src: [
+    {
+      path: "../public/fonts/alibaba-puhuiti-2-75-semibold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/alibaba-puhuiti-2-75-semibold.woff",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  variable: "--font-heading-local",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Enterprise AI Survey",
-  description: "Enterprise AI transformation readiness survey.",
+  title: "企业 AI 转型评估 H5",
+  description: "16 道选择题，帮助企业负责人完成一次克制、可解释的 AI 转型初步诊断。",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+      <body className={`${headingFont.variable} ${monoFont.variable} ${localHeadingFont.variable}`}>{children}</body>
     </html>
   );
 }
